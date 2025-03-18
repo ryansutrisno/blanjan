@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { FaPlus, FaPencilAlt, FaTrash, FaSearch, FaShoppingBag } from 'react-icons/fa';
+import { FaPlus, FaPencilAlt, FaTrash, FaSearch, FaCheck, FaTimes } from 'react-icons/fa';
 
 function App() {
   // Add a ref for the input element
@@ -194,9 +194,10 @@ function App() {
             filteredItems.map(item => (
               <li 
                 key={item.id} 
-                className={`flex items-center justify-between p-3 bg-white border border-gray-300 rounded-md mb-2 w-full dark:bg-gray-800 dark:border-gray-600 ${item.completed ? 'dark:text-gray-500' : 'dark:text-white'}`}
+                className={`flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-white border border-gray-300 rounded-md mb-2 w-full dark:bg-gray-800 dark:border-gray-600 ${item.completed ? 'dark:text-gray-500' : 'dark:text-white'}`}
+                style={{ minWidth: 0, minHeight: editingId === item.id ? '80px' : 'auto' }}
               >
-                <div className="flex gap-2 items-center">
+                <div className="flex items-center w-full sm:w-auto mb-2 sm:mb-0">
                   <input
                     type="checkbox"
                     checked={selectedItems.includes(item.id)}
@@ -205,36 +206,42 @@ function App() {
                   />
                 </div>
                 {editingId === item.id ? (
-                  <div className="flex gap-2 flex-1">
+                  <div className="flex flex-col w-full mt-0">
                     <input
                       type="text"
                       value={editText}
                       onChange={(e) => setEditText(e.target.value)}
-                      className="flex-1 p-2 border border-gray-300 rounded-md text-base dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full ml-1 p-2 border border-gray-300 rounded-md text-base dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary mb-2"
                       autoFocus
+                      style={{ marginTop: '1px' }}
                     />
-                    <button 
-                      onClick={() => saveEdit(item.id)} 
-                      className="px-4 py-2 bg-primary text-white border-none rounded-md cursor-pointer text-sm hover:bg-primary-hover"
-                    >
-                      Save
-                    </button>
-                    <button 
-                      onClick={cancelEdit} 
-                      className="px-4 py-2 bg-gray-500 text-white border-none rounded-md cursor-pointer text-sm hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700"
-                    >
-                      Cancel
-                    </button>
+                    <div className="flex justify-end gap-2">
+                      <button 
+                        onClick={() => saveEdit(item.id)} 
+                        className="px-4 py-2 bg-primary text-white border-none rounded-md cursor-pointer text-sm hover:bg-primary-hover"
+                      >
+                        <FaCheck />
+                      </button>
+                      <button 
+                        onClick={cancelEdit} 
+                        className="px-4 py-2 bg-gray-500 text-white border-none rounded-md cursor-pointer text-sm hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700"
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <>
-                    <span 
-                      className={`flex-1 text-base cursor-pointer px-2 ${item.completed ? 'line-through text-gray-500' : ''}`}
-                      onClick={() => toggleComplete(item.id)}
-                    >
-                      {item.text}
-                    </span>
-                    <div className="flex gap-2">
+                    <div className="w-full mb-2 mt-0">
+                      <span 
+                        className={`block text-base cursor-pointer px-2 py-1 break-all whitespace-normal overflow-hidden ${item.completed ? 'line-through text-gray-500' : ''}`}
+                        onClick={() => toggleComplete(item.id)}
+                        style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                      >
+                        {item.text}
+                      </span>
+                    </div>
+                    <div className="flex justify-end gap-2 w-full">
                       {!item.completed && (
                         <>
                           <button 
@@ -263,7 +270,7 @@ function App() {
         
         {/* Space for footer */}
         <div className="mt-auto py-4 text-center text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
-          © {new Date().getFullYear()} Blanjan by <a className='text-info' href='https://trazmedia.com' target='_blank'>Trazmedia</a>
+          &copy; {new Date().getFullYear()} Blanjan made with ❤️ by <a className='text-info' href='https://ryansutrisno.com' target='_blank'>Ryan Sutrisno</a>
         </div>
       </div>
     </div>
