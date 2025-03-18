@@ -2,22 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { FaPlus, FaPencilAlt, FaTrash, FaSearch, FaCheck, FaTimes } from 'react-icons/fa';
 
 function App() {
-  // Add a ref for the input element
-  const inputRef = useRef(null);
-  // Add state to track input focus
-  const [inputFocused, setInputFocused] = useState(false);
-  
-  const [items, setItems] = useState(() => {
-    const savedItems = localStorage.getItem('shoppingList');
-    return savedItems ? JSON.parse(savedItems) : [];
-  });
+  const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || false);
+  const [items, setItems] = useState(JSON.parse(localStorage.getItem('shoppingList')) || []);
   const [newItem, setNewItem] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState('');
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    return savedMode ? JSON.parse(savedMode) : false;
-  });
+  const inputRef = useRef(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -46,6 +36,14 @@ function App() {
     
     setItems([item, ...items]);
     setNewItem('');
+    // Focus back on the input field after adding
+    inputRef.current.focus();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && newItem.trim()) {
+      addItem(e);
+    }
   };
 
   const startEditing = (item) => {
@@ -103,11 +101,6 @@ function App() {
     item.text.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Add this function to check if the add button should be disabled
-  const isAddButtonDisabled = () => {
-    return !inputFocused || !newItem.trim();
-  };
-
   return (
     <div className={`min-h-screen w-full overflow-hidden ${darkMode ? 'dark bg-gray-900' : 'bg-white'}`}>
       <div className="max-w-xl mx-auto p-4 h-screen overflow-hidden relative flex flex-col">
@@ -125,16 +118,15 @@ function App() {
             type="text"
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}
-            onFocus={() => setInputFocused(true)}
-            onBlur={() => setInputFocused(false)}
+            onKeyDown={handleKeyDown}
             placeholder="Add new item..."
             className="flex-1 p-3 border border-gray-300 rounded-md text-center text-base dark:bg-gray-800 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <button 
             type="submit" 
-            disabled={isAddButtonDisabled()}
+            disabled={!newItem.trim()}
             className={`p-3 border-none rounded-md cursor-pointer text-base transition-colors flex items-center justify-center w-12 h-12 ${
-              isAddButtonDisabled() 
+              !newItem.trim() 
                 ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
                 : 'bg-primary text-white hover:bg-primary-hover'
             }`}
