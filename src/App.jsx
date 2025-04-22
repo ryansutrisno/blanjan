@@ -7,6 +7,7 @@ import {
   FaCheck,
   FaTimes,
 } from "react-icons/fa";
+import { Analytics } from "@vercel/analytics/next";
 
 function App() {
   const [darkMode, setDarkMode] = useState(
@@ -328,6 +329,7 @@ function App() {
           </a>
         </div>
       </div>
+      <Analytics />
     </div>
   );
 }
