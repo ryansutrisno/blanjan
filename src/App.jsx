@@ -7,7 +7,7 @@ import {
   FaCheck,
   FaTimes,
 } from "react-icons/fa";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [darkMode, setDarkMode] = useState(
