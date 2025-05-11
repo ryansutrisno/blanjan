@@ -140,7 +140,7 @@ function App() {
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Add new item..."
+            placeholder="Tambahkan item baru..."
             className="flex-1 p-3 border border-gray-300 rounded-md text-center text-base dark:bg-gray-800 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <button
@@ -164,7 +164,7 @@ function App() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search items..."
+              placeholder="Pencarian item..."
               className="w-full p-3 pl-10 border border-gray-300 rounded-md text-base dark:bg-gray-800 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
@@ -188,7 +188,7 @@ function App() {
                     htmlFor="select-all"
                     className="text-sm cursor-pointer dark:text-gray-300"
                   >
-                    Select All
+                    Pilih Semua
                   </label>
                 </div>
                 <button
@@ -200,7 +200,7 @@ function App() {
                       : "bg-danger hover:bg-danger-hover"
                   }`}
                 >
-                  Delete Selected ({selectedItems.length})
+                  Hapus Terpilih ({selectedItems.length})
                 </button>
               </div>
             )}
@@ -211,8 +211,8 @@ function App() {
           {filteredItems.length === 0 ? (
             <li className="text-center p-4 text-gray-500 dark:text-gray-400">
               {searchQuery
-                ? "No items match your search"
-                : "Your shopping list is empty"}
+                ? "Tidak ada item yang cocok dengan pencarian Anda"
+                : "Daftar belanja Anda kosong"}
             </li>
           ) : (
             filteredItems.map((item) => (
